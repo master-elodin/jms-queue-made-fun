@@ -238,7 +238,7 @@
             instance.previousTotalInbound = -1;
             instance.color = ko.observable(randomColor({luminosity: 'light'}));
             instance.racer = ko.observable({
-                name: 'racer-' + instance.name().substring(0, instance.name().indexOf(' ')),
+                name: 'racer-' + instance.name(),
                 direction: 1,
                 numLaps: ko.observable(0),
                 sourceImage: ko.observable(getRacerImg(queueIndex++)),
