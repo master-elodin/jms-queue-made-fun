@@ -289,7 +289,7 @@
                 link.rel  = 'stylesheet';
                 link.type = 'text/css';
                 // TODO: make this non-relative
-                link.href = 'assets/stylesheets/jms-queues.css';
+                link.href = 'https://rawgit.com/master-elodin/jms-queue-made-fun/master/assets/stylesheets/jms-queues.css';
                 document.getElementsByTagName('head')[0].appendChild(link);
 
                 var queueList = new QueueList(options);
