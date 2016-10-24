@@ -205,7 +205,7 @@
                 var deferred = $.Deferred()
                   , numLeft = numQueues;
                 for (var i = 0; i < options.queues.length; i++) {
-                    instance.queues()[i]().update(options.requestData, instance.runtime().numTimesRan()).then(function() {
+                    instance.queues()[i]().update(options.requestMethod, instance.runtime().numTimesRan()).then(function() {
                         if (--numLeft === 0) {
                             deferred.resolve();
                         }
