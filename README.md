@@ -36,7 +36,7 @@ var options = {
             queueName: 'FLIGHT.BRIDGE.QUEUE'
         }
     }],
-    requestMethod: function(queueData, requestData) {
+    requestMethod: function(queueData, requestData, refreshInSec) {
         return $.ajax({
             url: 'https://jmsviewer.mycompany.com/SearchQueue.jsp',
             type: "GET",
