@@ -1,0 +1,76 @@
+<div id="container" class="queue-overall-container">
+    <!-- queue list -->
+    <table class="queue-list">
+        <thead>
+            <tr>
+                <th class="queue-list-header queue-list__name">Queue Name</th>
+                <th class="queue-list-header queue-list__consumers">Consumers</th>
+                <th class="queue-list-header queue-list__depth">Queue Depth</th>
+                <th class="queue-list-header queue-list__max-depth">Max Depth</th>
+                <th class="queue-list-header queue-list__proc">Processed<br/>(15 sec)</th>
+                <th class="queue-list-header queue-list__avg-processed-sec-short">Processed/Sec<br/>(15 sec avg)</th>
+                <th class="queue-list-header queue-list__avg-processed-sec-long">Processed/Sec<br/>(5 min avg)</th>
+                <th class="queue-list-header queue-list__laps">Laps</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: queues">
+            <tr class="queue-list-entry__row" data-bind="style: { color: color }">
+                <td class="queue-list-entry__name" data-bind="text: shortName"></td>
+                <td data-bind="text: numConsumers"></td><td data-bind="text: numPending"></td>
+                <td data-bind="text: maxPending"></td><td data-bind="text: numProcessed"></td>
+                <td data-bind="text: avgProcessedPerSec"></td>
+                <td data-bind="text: totalAvgProcessedPerSec"></td>
+                <td data-bind="text: horse().numLaps"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="queue-combined-container">
+        <!-- runtime and toggle button -->
+        <div class="runtime-toggle-container">
+            <div class=runtime-container data-bind="with: runtime">
+                <span data-bind="text: getTime()"></span>
+            </div>
+            <div class=button-container>
+                <span class=button data-bind="click: toggleImages, text: imageText"></span>
+            </div>
+        </div>
+        <!-- leaderboard -->
+        <table class="leaderboard" data-bind="with: leaderboard">
+            <thead class="leaderboard-header">
+                <tr>
+                    <th class="leaderboard-header__name">Queue</th>
+                    <th class="leaderboard-header__category">Category</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: values">
+                <tr data-bind="css: { color: getColor() }">
+                    <td data-bind="text: name"/>
+                    <td data-bind="text: type"/>
+                    <td data-bind="text: value"/>
+                </tr>
+            </tbody>
+        </table>
+        <!-- graph -->
+        <div class="graph-top-parent">
+            <div id="chart-sub-container">
+                <canvas id="chart" width="600" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- track container -->
+    <div class="race-container" data-bind="foreach: queues">
+        <div class="racer-row">
+            <span class="racer-row__name" data-bind="text: reallyShortName"></span>
+            <div class="racer-row__racer-container" data-bind="attr: { id: horse().name }">
+                <img class="racer racer-image" data-bind="attr: {src: horse().sourceImage}, visible: !$root.useSimpleImg()"/>
+                <svg class="racer racer-dot" data-bind="visible: $root.useSimpleImg, style: {fill: color}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="40"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+</div>

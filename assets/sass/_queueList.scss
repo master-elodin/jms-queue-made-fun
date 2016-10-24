@@ -1,0 +1,41 @@
+.queue-list {
+    margin-left:auto;
+    margin-right:auto;
+    font-weight:600;
+    font-size:20px;
+}
+.queue-list__column {
+    width: 150px;
+}
+.queue-list__name {
+    width: 300px;
+}
+.queue-list__consumers {
+    @extend .queue-list__column;
+}
+.queue-list__depth {
+    @extend .queue-list__column;
+}
+.queue-list__max-depth {
+    @extend .queue-list__column;
+}
+.queue-list__proc {
+    @extend .queue-list__column;
+}
+.queue-list__avg-processed-sec-short {
+    @extend .queue-list__column;
+}
+.queue-list__avg-processed-sec-long {
+    @extend .queue-list__column;
+}
+.queue-list__laps {
+    @extend .queue-list__column;
+}
+.queue-list-entry__row {
+    text-align: center;
+    font-weight: 500;
+}
+.queue-list-entry__name {
+    text-align:left;
+    padding-left:20px;
+}

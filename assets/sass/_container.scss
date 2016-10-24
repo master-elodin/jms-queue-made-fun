@@ -1,0 +1,22 @@
+.queue-overall-container {
+    width: 100%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:20px;
+    color: $midnight;
+    font-family: sans-serif;
+}
+.queue-combined-container {
+    text-align:center;
+    height:30px;
+    line-height:30px;
+}
+.runtime-toggle-container {
+    float: left;
+}
+.leaderboard__row--changed {
+    color: $light-blue;
+}
+.leaderboard__row--no-change {
+    color: $clouds;
+}

@@ -1,0 +1,44 @@
+.race-container {
+    width:100%;
+    position:relative;
+    float:right;
+}
+
+
+.racer-row {
+    width: 100%;
+    height:50px;
+    float:left;
+    position:relative;
+    border-bottom:1px solid $midnight;
+}
+
+.racer-row__name {
+    z-index:0;
+    text-align:center;
+    position:absolute;
+    width:100%;
+    height:100px;
+    line-height:100px;
+    margin-top:25px;
+}
+
+.racer-row__racer-container {
+    width:100px;
+    height:100px;
+    position:absolute;
+}
+
+.racer {
+    width:100px;
+    height:100px;
+}
+
+.racer--image {
+    // TODO: needed?
+    z-index:2;
+}
+
+.racer--dot {
+    margin-top:15px;
+}
