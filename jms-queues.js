@@ -66,7 +66,7 @@
 				, maxLeft = 10
 				, maxRight = windowWidth - racerWidth - 20
                 , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
-              if (trueNewLeft === maxLeft || trueNewLeft === maxRight) {
+              if ((racer.numLaps() > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
                       setTimeout(function() {
