@@ -260,7 +260,7 @@
                     instance.avgProcessedPerSec(newData.avgProcessedPerSec);
                     instance.totalAvgProcessedPerSec(newData.totalAvgProcessedPerSec);
 
-                    moveRacer(instance.totalAvgProcessedPerSec() * 20, instance.racer());
+                    moveRacer(instance.avgProcessedPerSec() * 20, instance.racer());
                     updateChartArray(instance.dataset.data, {x: (numTimesRan+1)*refreshInSec, y: Math.floor(instance.avgProcessedPerSec())});
 
                     deferred.resolve();
