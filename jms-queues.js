@@ -64,7 +64,7 @@
                 , currentLeft = parseInt(currentLeft.substring(0, currentLeft.length - 2))
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , trueNewLeft = Math.min(Math.max(newLeft, 10), windowWidth - racerWidth - 20);
-              if (trueNewLeft + racerWidth > windowWidth || trueNewLeft < 0) {
+              if (trueNewLeft + racerWidth === windowWidth || trueNewLeft === 0) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
                       setTimeout(function() {
