@@ -188,7 +188,7 @@
                   responsive: true,
                   scales: {
                       gridLines: {
-                          color: rgba(0,0,0, 1)
+                          color: "rgba(0,0,0, 1)"
                       },
                       xAxes: [{
                           display: true
