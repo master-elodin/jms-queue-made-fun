@@ -49,13 +49,16 @@
 
         // HTML
         var currentImgIndexes = []
-          , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif';
+          , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif'
+		  , refreshInSec = options.refreshInSec || 15
+		  , refreshInMillis = refreshInSec * 1000
+		  , graphLengthMinutes = (options.graphLengthMinutes || 30) * (Math.floor(60/refreshInSec));
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
           , getImageSources=function(){console.log("refreshing source..."),$.get("https://rawgit.com/master-elodin/jms-queue-made-fun/master/img-sources.txt").then(function(a){srcImg=a.split("\n"),""===srcImg[srcImg.length-1]&&srcImg.pop()})}
           , getRacerImg=function(a){for(var b=getRandomNum(srcImg.length);currentImgIndexes.indexOf(b)>-1;)b=getRandomNum(srcImg.length);return currentImgIndexes[a]=b,srcImg[b]}
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
-          , updateChartArray=function(a,b){a.length>240&&a.shift(),a.push(b)}
+          , updateChartArray=function(a,b){a.length>graphLengthMinutes&&a.shift(),a.push(b)}
           , moveRacer = function(racerChangeDiff, racer) {
               var racerEl = $('#' + racer.name)
                 , racerWidth = racerEl.width()
@@ -88,18 +91,16 @@
                   // Moving right
                   racerEl.css('transform', 'scaleX(1)');
               }
-			  racerEl.stop(true, true);
+              racerEl.stop(true, true);
               racerEl.animate({
                   'left': trueNewLeft + 'px'
               }, refreshInMillis);
           };
-        // VARIABLES
-        var refreshInMillis = options.refreshInSec * 1000;
         function RunTime() {
             var instance = this;
             instance.numTimesRan = ko.observable(-1);
             instance.getTime = ko.pureComputed(function() {
-                var totalSeconds = instance.numTimesRan() * options.refreshInSec
+                var totalSeconds = instance.numTimesRan() * refreshInSec
                   , totalMinutes = Math.floor(totalSeconds / 60)
                   , totalHours = Math.floor(totalMinutes / 60)
                   , modSeconds = totalSeconds % 60
