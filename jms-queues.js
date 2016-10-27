@@ -88,6 +88,7 @@
                   // Moving right
                   racerEl.css('transform', 'scaleX(1)');
               }
+			  racerEl.stop(true, true);
               racerEl.animate({
                   'left': trueNewLeft + 'px'
               }, refreshInMillis);
