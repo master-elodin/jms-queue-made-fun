@@ -50,24 +50,24 @@
         // HTML
         var currentImgIndexes = []
           , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif'
-		  , refreshInSec = options.refreshInSec || 15
-		  , refreshInMillis = refreshInSec * 1000
-		  , updatesPerMinute = (Math.floor(60/refreshInSec))
-		  , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute;
+          , refreshInSec = options.refreshInSec || 15
+          , refreshInMillis = refreshInSec * 1000
+          , updatesPerMinute = (Math.floor(60/refreshInSec))
+          , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute;
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
-		  , pad=function(a){return a<10?"0"+a:a}
+          , pad=function(a){return a<10?"0"+a:a}
           , getImageSources=function(){console.log("refreshing source..."),$.get("https://rawgit.com/master-elodin/jms-queue-made-fun/master/img-sources.txt").then(function(a){srcImg=a.split("\n"),""===srcImg[srcImg.length-1]&&srcImg.pop()})}
           , getRacerImg=function(a){for(var b=getRandomNum(srcImg.length);currentImgIndexes.indexOf(b)>-1;)b=getRandomNum(srcImg.length);return currentImgIndexes[a]=b,srcImg[b]}
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
           , updateChartArray=function(chartArray,newData){
-			  // Update data or labels (since they need to stay in sync)
-			  if(chartArray.length>graphLengthMinutes) {
-				  // Remove old data as necessary
-				  chartArray.shift();
-			  }
-			  chartArray.push(newData);
-			  }
+              // Update data or labels (since they need to stay in sync)
+              if(chartArray.length>graphLengthMinutes) {
+                  // Remove old data as necessary
+                  chartArray.shift();
+              }
+              chartArray.push(newData);
+              }
           , moveRacer = function(racerChangeDiff, racer) {
               var racerEl = $('#' + racer.name)
                 , racerWidth = racerEl.width()
@@ -75,8 +75,8 @@
                 , currentLeft = racerEl.css('left')
                 , currentLeft = parseInt(currentLeft.substring(0, currentLeft.length - 2))
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
-				, maxLeft = 10
-				, maxRight = windowWidth - racerWidth - 20
+                , maxLeft = 10
+                , maxRight = windowWidth - racerWidth - 20
                 , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
               if ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
                   racer.direction = racer.direction * -1;
@@ -187,9 +187,9 @@
                   maintainAspectRatio: false,
                   responsive: true,
                   scales: {
-					  gridLines: {
-						  color: "#FFFFFF"
-					  },
+                      gridLines: {
+                          color: rgba(0,0,0, 1)
+                      },
                       xAxes: [{
                           display: true
                       }]
@@ -211,7 +211,7 @@
               instance.queues.push(ko.observable(queueData));
               createChartLine(instance.chart, queueData);
             }
-			instance.updateCount = 0;
+            instance.updateCount = 0;
             instance.update = function() {
                 var deferred = $.Deferred()
                   , numLeft = numQueues;
@@ -243,10 +243,10 @@
                     instance.leaderboard().bestAvg().update(bestCurrentAvgName, bestCurrentAvg);
                     instance.leaderboard().bestTotalAvg().update(bestCurrentTotalAvgName, bestCurrentTotalAvg);
                     instance.runtime().increment();
-					// Only show update label for each minute change
-					var date = new Date()
-						, hourMinuteTime = pad(date.getHours()) + ":" + pad(date.getMinutes())
-						, updateTimeLabel = ((instance.updateCount++ * refreshInSec) % 60 === 0) ? hourMinuteTime : "";
+                    // Only show update label for each minute change
+                    var date = new Date()
+                        , hourMinuteTime = pad(date.getHours()) + ":" + pad(date.getMinutes())
+                        , updateTimeLabel = ((instance.updateCount++ * refreshInSec) % 60 === 0) ? hourMinuteTime : "";
                     updateChartArray(instance.chart.data.labels, updateTimeLabel);
                     instance.chart.update();
                 });
