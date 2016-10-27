@@ -187,6 +187,9 @@
                   maintainAspectRatio: false,
                   responsive: true,
                   scales: {
+					  gridLines: {
+						  color: "#FFFFFF"
+					  },
                       xAxes: [{
                           display: true
                       }]
@@ -224,7 +227,6 @@
                       , bestCurrentAvgName = ''
                       , bestCurrentTotalAvg = 0
                       , bestCurrentTotalAvgName = '';
-					instance.updateCount++;
                     instance.leaderboard().clearLeaderChange();
                     $.each(instance.queues(), function(index, queue) {
                         var queueName = queue().name();
@@ -244,7 +246,7 @@
 					// Only show update label for each minute change
 					var date = new Date()
 						, hourMinuteTime = pad(date.getHours()) + ":" + pad(date.getMinutes())
-						, updateTimeLabel = ((instance.updateCount * refreshInSec) % 60 === 0) ? hourMinuteTime : "";
+						, updateTimeLabel = ((instance.updateCount++ * refreshInSec) % 60 === 0) ? hourMinuteTime : "";
                     updateChartArray(instance.chart.data.labels, updateTimeLabel);
                     instance.chart.update();
                 });
