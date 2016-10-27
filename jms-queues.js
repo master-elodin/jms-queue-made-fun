@@ -245,7 +245,7 @@
 					var date = new Date()
 						, hourMinuteTime = pad(date.getHours()) + ":" + pad(date.getMinutes())
 						, updateTimeLabel = ((instance.updateCount * refreshInSec) % 60 === 0) ? hourMinuteTime : "";
-                    updateChartArray(instance.chart.data.labels, instance.runtime().numTimesRan());
+                    updateChartArray(instance.chart.data.labels, updateTimeLabel);
                     instance.chart.update();
                 });
             }
