@@ -75,7 +75,7 @@
               racer.sourceImage(alertSrc);
               
               var alertRuns = 0;
-              var alertInterval = setInterval(function(racer){
+              var alertInterval = setInterval(function(){
                   if(racer.showAlert) {
                       $(racerEl.siblings()[0]).addClass("racer-row__name--alert" + ((alertRuns % 2) + 1)).removeClass("racer-row__name--alert" + (((alertRuns + 1) % 2) + 1));
                       alertRuns++;
