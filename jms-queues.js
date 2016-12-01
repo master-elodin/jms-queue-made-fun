@@ -80,15 +80,14 @@
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
-                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
-                , showAlert = false;
+                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
                 if(racerChangeDiff === 0) {
                     if(!racer.noMsgProcessedCount){
                         racer.noMsgProcessedCount = 0;
                     }
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
-                        showAlert = true;
+                        racer.sourceImage(alertSrc);
                     }
                 } else {
                     racer.noMsgProcessedCount = 0;
@@ -104,7 +103,7 @@
                   setTimeout(function() {
                       racer.sourceImage(explosionSrc);
                       setTimeout(function() {
-                        racer.sourceImage(showAlert ? alertSrc : getRacerImg(racer.trackIndex));
+                        racer.sourceImage(getRacerImg(racer.trackIndex));
                       }, 800);
                   }, Math.max(refreshInMillis - 1000, 0));
               }
