@@ -50,10 +50,13 @@
         // HTML
         var currentImgIndexes = []
           , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif'
+          , alertSrc = "http://i.imgur.com/uLmG2uQ.gif"
           , refreshInSec = options.refreshInSec || 15
           , refreshInMillis = refreshInSec * 1000
           , updatesPerMinute = (Math.floor(60/refreshInSec))
-          , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute;
+          , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute
+          // number of times a queue can be dead (0 messages processed) before alerting
+          , numAllowableDeadTicks = options.numAllowableDeadTicks || 2;
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
           , pad=function(a){return a<10?"0"+a:a}
@@ -77,7 +80,19 @@
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
-                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
+                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
+                , showAlert = false;
+                if(racerChangeDiff === 0) {
+                    if(!racer.noMsgProcessedCount){
+                        racer.noMsgProcessedCount = 0;
+                    }
+                    racer.noMsgProcessedCount++;
+                    if(racer.noMsgProcessedCount > numAllowableDeadTicks){
+                        showAlert = true;
+                    }
+                } else {
+                    racer.noMsgProcessedCount = 0;
+                }
               if ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
@@ -89,7 +104,7 @@
                   setTimeout(function() {
                       racer.sourceImage(explosionSrc);
                       setTimeout(function() {
-                          racer.sourceImage(getRacerImg(racer.trackIndex));
+                        racer.sourceImage(showAlert ? alertSrc : getRacerImg(racer.trackIndex));
                       }, 800);
                   }, Math.max(refreshInMillis - 1000, 0));
               }
