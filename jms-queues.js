@@ -50,7 +50,6 @@
         // HTML
         var currentImgIndexes = []
           , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif'
-          , alertSrc = "http://i.imgur.com/uLmG2uQ.gif"
           , refreshInSec = options.refreshInSec || 15
           , refreshInMillis = refreshInSec * 1000
           , updatesPerMinute = (Math.floor(60/refreshInSec))
@@ -72,12 +71,16 @@
               chartArray.push(newData);
               }
           , handleAlert = function(racer, racerEl) {
-              racer.sourceImage(alertSrc);
-              
               var alertRuns = 0;
               return setInterval(function(){
-                  $(racerEl.siblings()[0]).addClass("racer-row__name--alert" + ((alertRuns % 2) + 1)).removeClass("racer-row__name--alert" + (((alertRuns + 1) % 2) + 1));
-                  alertRuns++;
+                  if(racer.showAlert) {
+                      $(racerEl.siblings()[0]).addClass("racer-row__name--alert" + ((alertRuns % 2) + 1)).removeClass("racer-row__name--alert" + (((alertRuns + 1) % 2) + 1));
+                      alertRuns++;
+                  } else {
+                      if(racer.alertInterval) {
+                          clearInterval(racer.alertInterval);
+                      }
+                  }
               }, 500);
           }
           , clearAlert = function(racerEl, alertInterval) {
@@ -96,29 +99,27 @@
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
-                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
-                , showAlert = false
-                , alertInterval = null;
+                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
                 if(racerChangeDiff === 0) {
                     if(!racer.noMsgProcessedCount || racer.noMsgProcessedCount < 0){
                         racer.noMsgProcessedCount = 0;
                     }
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
-                        showAlert = true;
-                        if(!alertInterval) {
-                            alertInterval = handleAlert(racer, racerEl);
+                        racer.showAlert = true;
+                        if(!racer.alertInterval) {
+                            racer.alertInterval = handleAlert(racer, racerEl);
                         }
                     } else {
                         clearAlert(racerEl, alertInterval);
-                        showAlert = false;
+                        racer.showAlert = false;
                     }
                 } else {
                     racer.noMsgProcessedCount = 0;
                     clearAlert(racerEl, alertInterval);
-                    showAlert = false;
+                    racer.showAlert = false;
                 }
-              if (!showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {
+              if (!racer.showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
                       setTimeout(function() {
