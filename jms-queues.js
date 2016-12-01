@@ -99,7 +99,9 @@
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
                         showAlert = true;
-                        alertInterval = handleAlert(racer, racerEl);
+                        if(!alertInterval) {
+                            alertInterval = handleAlert(racer, racerEl);
+                        }
                     } else {
                         if(alertInterval != null) {
                             clearInterval(alertInterval);
