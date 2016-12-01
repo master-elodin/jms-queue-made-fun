@@ -80,14 +80,9 @@
                       if(racer.alertInterval) {
                           clearInterval(racer.alertInterval);
                       }
+                      $(racerEl.siblings()[0]).removeClass("racer-row__name--alert1").removeClass("racer-row__name--alert2");
                   }
               }, 500);
-          }
-          , clearAlert = function(racerEl, racer) {
-                if(racer.alertInterval != null) {
-                    clearInterval(racer.alertInterval);
-                }
-                $(racerEl.siblings()[0]).removeClass("racer-row__name--alert1").removeClass("racer-row__name--alert2");
           }
           , moveRacer = function(racerChangeDiff, racer) {
               var racerEl = $('#' + racer.name)
@@ -110,13 +105,11 @@
                             racer.alertInterval = handleAlert(racer, racerEl);
                         }
                     } else {
-                        clearAlert(racerEl, racer);
                         racer.showAlert = false;
                     }
                 } else {
-                    racer.noMsgProcessedCount = 0;
-                    clearAlert(racerEl, racer);
                     racer.showAlert = false;
+                    racer.noMsgProcessedCount = 0;
                 }
               if (!racer.showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {
                   racer.direction = racer.direction * -1;
