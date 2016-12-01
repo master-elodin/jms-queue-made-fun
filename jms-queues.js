@@ -95,7 +95,7 @@
                     racer.noMsgProcessedCount = 0;
                     showAlert = false;
                 }
-              if (!showAlert && (currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
+              if (!showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
                       setTimeout(function() {
