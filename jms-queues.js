@@ -80,19 +80,22 @@
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
-                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
+                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
+                , showAlert = false;
                 if(racerChangeDiff === 0) {
-                    if(!racer.noMsgProcessedCount){
+                    if(!racer.noMsgProcessedCount || racer.noMsgProcessedCount < 0){
                         racer.noMsgProcessedCount = 0;
                     }
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
+                        showAlert = true;
                         racer.sourceImage(alertSrc);
                     }
                 } else {
                     racer.noMsgProcessedCount = 0;
+                    showAlert = false;
                 }
-              if ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
+              if (!showAlert && (currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight) {
                   racer.direction = racer.direction * -1;
                   if (racer.direction === 1) {
                       setTimeout(function() {
