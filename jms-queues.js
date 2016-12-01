@@ -56,7 +56,7 @@
           , updatesPerMinute = (Math.floor(60/refreshInSec))
           , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute
           // number of times a queue can be dead (0 messages processed) before alerting
-          , numAllowableDeadTicks = options.numAllowableDeadTicks || 2;
+          , numAllowableDeadTicks = options.numAllowableDeadTicks || 20;
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
           , pad=function(a){return a<10?"0"+a:a}
@@ -344,7 +344,7 @@
                 var link  = document.createElement('link');
                 link.rel  = 'stylesheet';
                 link.type = 'text/css';
-                link.href = 'https://rawgit.com/master-elodin/jms-queue-made-fun/beta/assets/stylesheets/jms-queues.css';
+                link.href = 'https://rawgit.com/master-elodin/jms-queue-made-fun/master/assets/stylesheets/jms-queues.css';
                 document.getElementsByTagName('head')[0].appendChild(link);
 
                 var queueList = new QueueList(options);
