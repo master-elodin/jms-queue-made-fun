@@ -71,6 +71,15 @@
               }
               chartArray.push(newData);
               }
+          , handleAlert = function(racer, racerEl) {
+              racer.sourceImage(alertSrc);
+              
+              var alertRuns = 0;
+              return setInterval(function(){
+                  $(racerEl.siblings()[0]).addClass("racer-row__name--alert" + ((alertRuns % 2) + 1)).removeClass("racer-row__name--alert" + (((alertRuns + 1) % 2) + 1));
+                  alertRuns++;
+              }, 500);
+          }
           , moveRacer = function(racerChangeDiff, racer) {
               var racerEl = $('#' + racer.name)
                 , racerWidth = racerEl.width()
@@ -81,7 +90,8 @@
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
                 , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
-                , showAlert = false;
+                , showAlert = false
+                , alertInterval = null;
                 if(racerChangeDiff === 0) {
                     if(!racer.noMsgProcessedCount || racer.noMsgProcessedCount < 0){
                         racer.noMsgProcessedCount = 0;
@@ -89,10 +99,20 @@
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
                         showAlert = true;
-                        racer.sourceImage(alertSrc);
+                        alertInterval = handleAlert(racer, racerEl);
+                    } else {
+                        if(alertInterval != null) {
+                            clearInterval(alertInterval);
+                            alertInterval = null;
+                        }
+                        showAlert = false;
                     }
                 } else {
                     racer.noMsgProcessedCount = 0;
+                    if(alertInterval != null) {
+                        clearInterval(alertInterval);
+                        alertInterval = null;
+                    }
                     showAlert = false;
                 }
               if (!showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {

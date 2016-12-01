@@ -23,6 +23,15 @@
     margin-top:25px;
 }
 
+.racer-row__name--alert1 {
+	background-color: rgba(255,0,0,.5);
+	transition: .5s;
+}
+.racer-row__name--alert2 {
+	background-color: rgba(0,0,255,.5);
+	transition: .5s;
+}
+
 .racer-row__racer-container {
     width:100px;
     height:100px;

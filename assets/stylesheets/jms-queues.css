@@ -26,24 +26,36 @@
 }
 
 /* line 26, ../sass/_racetrack.scss */
+.racer-row__name--alert1 {
+  background-color: rgba(255, 0, 0, 0.5);
+  transition: .5s;
+}
+
+/* line 30, ../sass/_racetrack.scss */
+.racer-row__name--alert2 {
+  background-color: rgba(0, 0, 255, 0.5);
+  transition: .5s;
+}
+
+/* line 35, ../sass/_racetrack.scss */
 .racer-row__racer-container {
   width: 100px;
   height: 100px;
   position: absolute;
 }
 
-/* line 32, ../sass/_racetrack.scss */
+/* line 41, ../sass/_racetrack.scss */
 .racer {
   width: 100px;
   height: 100px;
 }
 
-/* line 37, ../sass/_racetrack.scss */
+/* line 46, ../sass/_racetrack.scss */
 .racer--image {
   z-index: 2;
 }
 
-/* line 42, ../sass/_racetrack.scss */
+/* line 51, ../sass/_racetrack.scss */
 .racer--dot {
   margin-top: 15px;
 }
