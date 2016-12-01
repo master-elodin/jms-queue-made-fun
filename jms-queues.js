@@ -50,7 +50,6 @@
         // HTML
         var currentImgIndexes = []
           , explosionSrc = 'https://media.giphy.com/media/DVWVJxLvLSc92/giphy.gif'
-          , alertSrc = "http://i.imgur.com/uLmG2uQ.gif"
           , refreshInSec = options.refreshInSec || 15
           , refreshInMillis = refreshInSec * 1000
           , updatesPerMinute = (Math.floor(60/refreshInSec))
@@ -72,20 +71,17 @@
               chartArray.push(newData);
               }
           , handleAlert = function(racer, racerEl) {
-              racer.sourceImage(alertSrc);
-              
               var alertRuns = 0;
-              var alertInterval = setInterval(function(){
+              return setInterval(function(){
                   if(racer.showAlert) {
                       $(racerEl.siblings()[0]).addClass("racer-row__name--alert" + ((alertRuns % 2) + 1)).removeClass("racer-row__name--alert" + (((alertRuns + 1) % 2) + 1));
                       alertRuns++;
                   } else {
-                      if(alertInterval) {
-                          clearInterval(alertInterval);
+                      if(racer.alertInterval) {
+                          clearInterval(racer.alertInterval);
                       }
                   }
               }, 500);
-              return alertInterval;
           }
           , clearAlert = function(racerEl, alertInterval) {
                 if(alertInterval != null) {
@@ -103,8 +99,7 @@
                 , newLeft = currentLeft + (racerChangeDiff * racer.direction)
                 , maxLeft = 10
                 , maxRight = windowWidth - racerWidth - 20
-                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight)
-                , alertInterval = null;
+                , trueNewLeft = Math.min(Math.max(newLeft, maxLeft), maxRight);
                 if(racerChangeDiff === 0) {
                     if(!racer.noMsgProcessedCount || racer.noMsgProcessedCount < 0){
                         racer.noMsgProcessedCount = 0;
@@ -112,8 +107,8 @@
                     racer.noMsgProcessedCount++;
                     if(racer.noMsgProcessedCount > numAllowableDeadTicks){
                         racer.showAlert = true;
-                        if(!alertInterval) {
-                            alertInterval = handleAlert(racer, racerEl);
+                        if(!racer.alertInterval) {
+                            racer.alertInterval = handleAlert(racer, racerEl);
                         }
                     } else {
                         clearAlert(racerEl, alertInterval);
