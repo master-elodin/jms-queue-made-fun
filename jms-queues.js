@@ -83,10 +83,9 @@
                   }
               }, 500);
           }
-          , clearAlert = function(racerEl, alertInterval) {
-                if(alertInterval != null) {
-                    clearInterval(alertInterval);
-                    alertInterval = null;
+          , clearAlert = function(racerEl, racer) {
+                if(racer.alertInterval != null) {
+                    clearInterval(racer.alertInterval);
                 }
                 $(racerEl.siblings()[0]).removeClass("racer-row__name--alert1").removeClass("racer-row__name--alert2");
           }
@@ -111,12 +110,12 @@
                             racer.alertInterval = handleAlert(racer, racerEl);
                         }
                     } else {
-                        clearAlert(racerEl, alertInterval);
+                        clearAlert(racerEl, racer);
                         racer.showAlert = false;
                     }
                 } else {
                     racer.noMsgProcessedCount = 0;
-                    clearAlert(racerEl, alertInterval);
+                    clearAlert(racerEl, racer);
                     racer.showAlert = false;
                 }
               if (!racer.showAlert && ((currentLeft > 0 && trueNewLeft === maxLeft) || trueNewLeft === maxRight)) {
