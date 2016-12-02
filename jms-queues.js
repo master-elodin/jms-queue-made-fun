@@ -55,7 +55,7 @@
           , updatesPerMinute = (Math.floor(60/refreshInSec))
           , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute
           // number of times a queue can be dead (0 messages processed) before alerting
-          , numAllowableDeadTicks = options.numAllowableDeadTicks || 20;
+          , numAllowableDeadTicks = options.numAllowableDeadTicks || 10;
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
           , pad=function(a){return a<10?"0"+a:a}
