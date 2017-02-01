@@ -62,6 +62,7 @@
           , getImageSources=function(){console.log("refreshing source..."),$.get("https://rawgit.com/master-elodin/jms-queue-made-fun/master/img-sources.txt").then(function(a){srcImg=a.split("\n"),""===srcImg[srcImg.length-1]&&srcImg.pop()})}
           , getRacerImg=function(a){for(var b=getRandomNum(srcImg.length);currentImgIndexes.indexOf(b)>-1;)b=getRandomNum(srcImg.length);return currentImgIndexes[a]=b,srcImg[b]}
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
+          , abbreviateNumber=function(a){var b=a/1e3,c=a/1e6;return c>1?c.toFixed(2)+"M":b>1?b.toFixed(2)+"K":a}
           , updateChartArray=function(chartArray,newData){
               // Update data or labels (since they need to stay in sync)
               if(chartArray.length>graphLengthMinutes) {
@@ -305,6 +306,10 @@
             instance.numPending = ko.observable(0);
             instance.maxPending = ko.observable(0);
             instance.numProcessed = ko.observable(0);
+            instance.totalNumProcessed = ko.observable(0);
+            instance.formattedTotalNumProcessed = ko.pureComputed(function(){
+                return abbreviateNumber(instance.totalNumProcessed());
+            });
             instance.avgProcessedPerSec = ko.observable(0);
             instance.totalAvgProcessedPerSec = ko.observable(0);
             instance.update = function(requestMethod, numTimesRan, refreshInSec) {
@@ -314,6 +319,7 @@
                     instance.numPending(newData.numPending);
                     instance.maxPending(newData.maxPending);
                     instance.numProcessed(newData.numProcessed);
+                    instance.totalNumProcessed(instance.totalNumProcessed() + newData.numProcessed);
                     instance.avgProcessedPerSec(newData.avgProcessedPerSec);
                     instance.totalAvgProcessedPerSec(newData.totalAvgProcessedPerSec);
 
@@ -332,7 +338,7 @@
             getImageSources();
             setTimeout(function() {
 
-                $('body').html('<div class=queue-overall-container id=container><table class=queue-list><thead><tr><th class="queue-list-header queue-list__name">Queue Name<th class="queue-list-header queue-list__consumers">Consumers<th class="queue-list-header queue-list__depth">Queue Depth<th class="queue-list-header queue-list__max-depth">Max Depth<th class="queue-list-header queue-list__proc">Processed<br>(15 sec)<th class="queue-list-header queue-list__avg-processed-sec-short">Processed/Sec<br>(15 sec avg)<th class="queue-list-header queue-list__avg-processed-sec-long">Processed/Sec<br>(5 min avg)<th class="queue-list-header queue-list__laps">Laps<tbody data-bind="foreach: queues"><tr data-bind="style: { color: color }"class=queue-list-entry__row><td data-bind="text: name"class=queue-list-entry__name><td data-bind="text: numConsumers"><td data-bind="text: numPending"><td data-bind="text: maxPending"><td data-bind="text: numProcessed"><td data-bind="text: avgProcessedPerSec"><td data-bind="text: totalAvgProcessedPerSec"><td data-bind="text: racer().numLaps"></table><div class=queue-combined-container><div class=runtime-toggle-container><div class=runtime-container data-bind="with: runtime"><span data-bind="text: getTime()"></span></div><div class=button-container><span data-bind="click: toggleImages, text: imageText"class=button></span></div></div><table class=leaderboard data-bind="with: leaderboard"><thead class=leaderboard-header><tr><th class=leaderboard-header__name>Queue<th class=leaderboard-header__category>Category<th>Points<tbody data-bind="foreach: values"><tr data-bind="style: { color: getColor() }"><td data-bind="text: name"><td data-bind="text: type"><td data-bind="text: value"></table><div class=graph-top-parent><div id=chart-sub-container><canvas height=200 id=chart width=600></canvas></div></div></div><div class=race-container data-bind="foreach: queues"><div class=racer-row><span data-bind="text: name"class=racer-row__name></span><div class=racer-row__racer-container data-bind="attr: { id: racer().name }"><img class="racer racer-image"data-bind="attr: {src: racer().sourceImage}, visible: !$root.useSimpleImg()"> <svg class="racer racer-dot"data-bind="visible: $root.useSimpleImg, style: {fill: color}"viewBox="0 0 100 100"xmlns=http://www.w3.org/2000/svg><circle cx=40 cy=40 r=40 /></svg></div></div></div></div>');
+                $('body').html('<div class=queue-overall-container id=container><table class=queue-list><thead><tr><th class="queue-list-header queue-list__name">Queue Name<th class="queue-list-header queue-list__consumers">Consumers<th class="queue-list-header queue-list__depth">Queue Depth<th class="queue-list-header queue-list__max-depth">Max Depth<th class="queue-list-header queue-list__proc">Processed<br>(15 sec)<th class="queue-list-header queue-list__avg-processed-sec-short">Processed/Sec<br>(15 sec avg)<th class="queue-list-header queue-list__avg-processed-sec-long">Processed/Sec<br>(5 min avg)<th class="queue-list-header queue-list__laps">Total Msg<tbody data-bind="foreach: queues"><tr data-bind="style: { color: color }"class=queue-list-entry__row><td data-bind="text: name"class=queue-list-entry__name><td data-bind="text: numConsumers"><td data-bind="text: numPending"><td data-bind="text: maxPending"><td data-bind="text: numProcessed"><td data-bind="text: avgProcessedPerSec"><td data-bind="text: totalAvgProcessedPerSec"><td data-bind="text: formattedTotalNumProcessed"></table><div class=queue-combined-container><div class=runtime-toggle-container><div class=runtime-container data-bind="with: runtime"><span data-bind="text: getTime()"></span></div><div class=button-container><span data-bind="click: toggleImages, text: imageText"class=button></span></div></div><table class=leaderboard data-bind="with: leaderboard"><thead class=leaderboard-header><tr><th class=leaderboard-header__name>Queue<th class=leaderboard-header__category>Category<th>Points<tbody data-bind="foreach: values"><tr data-bind="style: { color: getColor() }"><td data-bind="text: name"><td data-bind="text: type"><td data-bind="text: value"></table><div class=graph-top-parent><div id=chart-sub-container><canvas height=200 id=chart width=600></canvas></div></div></div><div class=race-container data-bind="foreach: queues"><div class=racer-row><span data-bind="text: name"class=racer-row__name></span><div class=racer-row__racer-container data-bind="attr: { id: racer().name }"><img class="racer racer-image"data-bind="attr: {src: racer().sourceImage}, visible: !$root.useSimpleImg()"> <svg class="racer racer-dot"data-bind="visible: $root.useSimpleImg, style: {fill: color}"viewBox="0 0 100 100"xmlns=http://www.w3.org/2000/svg><circle cx=40 cy=40 r=40 /></svg></div></div></div></div>');
 
                 var link  = document.createElement('link');
                 link.rel  = 'stylesheet';
