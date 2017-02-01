@@ -62,7 +62,7 @@
           , getImageSources=function(){console.log("refreshing source..."),$.get("https://rawgit.com/master-elodin/jms-queue-made-fun/master/img-sources.txt").then(function(a){srcImg=a.split("\n"),""===srcImg[srcImg.length-1]&&srcImg.pop()})}
           , getRacerImg=function(a){for(var b=getRandomNum(srcImg.length);currentImgIndexes.indexOf(b)>-1;)b=getRandomNum(srcImg.length);return currentImgIndexes[a]=b,srcImg[b]}
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
-          , abbreviateNumber=function(a){var b=a/1e3,c=a/1e6;return c>1?c.toFixed(2)+"M":b>1?b.toFixed(2)+"K":a};
+          , abbreviateNumber=function(a){var b=a/1e3,c=a/1e6;return c>1?c.toFixed(2)+"M":b>1?b.toFixed(2)+"K":a}
           , updateChartArray=function(chartArray,newData){
               // Update data or labels (since they need to stay in sync)
               if(chartArray.length>graphLengthMinutes) {
