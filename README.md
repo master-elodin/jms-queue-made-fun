@@ -37,6 +37,7 @@ var options = {
         }
     }],
     requestMethod: function(queueData, requestData, refreshInSec) {
+        var deferred = $.Deferred();
         return $.ajax({
             url: 'https://jmsviewer.mycompany.com/SearchQueue.jsp',
             type: "GET",
@@ -46,7 +47,17 @@ var options = {
                 queueName: requestData.queueName,
                 fromViewerPage: true
             }
+        }).then(function(data) {
+            deferred.resolve({
+                numConsumers: data.numConsumers,
+                numPending: data.numPending,
+                maxPending: data.maxPending,
+                numProcessed: data.numProcessed,
+                avgProcessedPerSec: data.avgProcessedPerSec,
+                totalAvgProcessedPerSec: data.totalAvgProcessedPerSec
+            });
         });
+        return deferred;
     }
 }
 ```
