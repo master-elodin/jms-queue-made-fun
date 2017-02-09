@@ -75,7 +75,7 @@
 
 /* line 10, ../sass/_queueList.scss */
 .queue-list__name {
-  width: 300px;
+  width: 200px;
 }
 
 /* line 34, ../sass/_queueList.scss */
@@ -88,6 +88,19 @@
 .queue-list-entry__name {
   text-align: left;
   padding-left: 20px;
+}
+
+/* line 42, ../sass/_queueList.scss */
+.max-processed__count {
+  float: left;
+  width: 50px;
+}
+
+/* line 46, ../sass/_queueList.scss */
+.max-processed__date {
+  font-size: 12px;
+  float: right;
+  line-height: 20px;
 }
 
 /* line 1, ../sass/_leaderboard.scss */
