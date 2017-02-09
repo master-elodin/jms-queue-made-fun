@@ -14,12 +14,12 @@ document.getElementsByTagName("head")[0].appendChild(script)
 
   * ```queues``` - list of queues
     * ```name``` - for display purposes
-    * ```requestData``` - any required information used in ```requestMethod``` (queue name, connectino factory, etc)
+    * ```requestData``` - any required information used in ```requestMethod``` (queue name, connection factory, etc)
   * ```requestMethod``` - method for retrieving queue information
 
 Example options:
 
-```
+```javascript
 var options = {
     queues: [{
         name: 'PASSENGER',
@@ -37,6 +37,7 @@ var options = {
         }
     }],
     requestMethod: function(queueData, requestData, refreshInSec) {
+        var deferred = $.Deferred();
         return $.ajax({
             url: 'https://jmsviewer.mycompany.com/SearchQueue.jsp',
             type: "GET",
@@ -46,20 +47,31 @@ var options = {
                 queueName: requestData.queueName,
                 fromViewerPage: true
             }
+        }).then(function(data) {
+            // however the data comes back, this is the structure of the object that should be returned
+            deferred.resolve({
+                numConsumers: data.numConsumers,
+                numPending: data.numPending,
+                maxPending: data.maxPending,
+                numProcessed: data.numProcessed,
+                avgProcessedPerSec: data.avgProcessedPerSec,
+                totalAvgProcessedPerSec: data.totalAvgProcessedPerSec
+            });
         });
+        return deferred;
     }
 }
 ```
 
 3. Run!
 
-```
+```javascript
 JmsQueueVisualizer(options);
 ```
 
 **Full example**
 
-```
+```javascript
 // Add script (if using via browser dev tools)
 var script = document.createElement("script");
 script.src = "jms-queues-amd.js",
