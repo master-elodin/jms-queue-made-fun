@@ -8,7 +8,7 @@
     width: 150px;
 }
 .queue-list__name {
-    width: 300px;
+    width: 200px;
 }
 .queue-list__consumers {
     @extend .queue-list__column;
@@ -38,4 +38,13 @@
 .queue-list-entry__name {
     text-align:left;
     padding-left:20px;
+}
+.max-processed__count {
+    float: left;
+    width: 50px;
+}
+.max-processed__date {
+    font-size: 12px;
+    float: right;
+    line-height: 20px;
 }
