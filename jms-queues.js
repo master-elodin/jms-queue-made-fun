@@ -55,7 +55,9 @@
           , updatesPerMinute = (Math.floor(60/refreshInSec))
           , graphLengthMinutes = (options.graphLengthMinutes || 30) * updatesPerMinute
           // number of times a queue can be dead (0 messages processed) before alerting
-          , numAllowableDeadTicks = options.numAllowableDeadTicks || 10;
+          , numAllowableDeadTicks = options.numAllowableDeadTicks || 10
+          // name of saved data for number of seconds the script has been running so far, for saving historical data
+          , RUNTIME_NAME = "runtime";
         // FUNCTIONS
         var getRandomNum=function(a){return Math.floor(Math.random()*a)}
           , pad=function(a){return a<10?"0"+a:a}
@@ -174,6 +176,11 @@
             }, instance);
             instance.increment = function() {
                 instance.numTimesRan(instance.numTimesRan() + 1);
+
+                // save how long the script has been running so far
+                var runtimes = JSON.parse(localStorage.getItem(RUNTIME_NAME) || "{}");
+                runtimes[getFormattedDate()] = instance.numTimesRan() * refreshInSec;
+                localStorage.setItem(RUNTIME_NAME, JSON.stringify(runtimes));
             }
         }
         function Leader(type) {
