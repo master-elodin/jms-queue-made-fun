@@ -67,8 +67,9 @@
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
           , abbreviateNumber=function(a){var b=a/1e3,c=a/1e6;return c>1?c.toFixed(2)+"M":b>1?b.toFixed(2)+"K":a}
           , getTotalProcessed = function(id, date) {
-              var processedStorageName = "totalProcessed" + id;
               var processedForId = JSON.parse(localStorage.getItem("totalProcessed" + id) || "{}");
+              console.log("processedForId: " + processedForId);
+              console.log("processedForId[date]: " + processedForId[date]);
               return processedForId[date] || 0;
           }
           , saveTotalProcessed = function(id, totalProcessed) {
