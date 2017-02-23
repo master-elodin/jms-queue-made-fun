@@ -66,6 +66,11 @@
           , getRacerImg=function(a){for(var b=getRandomNum(srcImg.length);currentImgIndexes.indexOf(b)>-1;)b=getRandomNum(srcImg.length);return currentImgIndexes[a]=b,srcImg[b]}
           , createChartLine=function(a,b){b.dataset={label:b.name(),borderColor:b.color(),fill:!1,data:[]},a.data.datasets.push(b.dataset)}
           , abbreviateNumber=function(a){var b=a/1e3,c=a/1e6;return c>1?c.toFixed(2)+"M":b>1?b.toFixed(2)+"K":a}
+          , getTotalProcessed = function(id, date) {
+              var processedStorageName = "totalProcessed" + id;
+              var processedForId = JSON.parse(localStorage.getItem("totalProcessed" + id) || "{}");
+              return processedForId[date] || 0;
+          }
           , saveTotalProcessed = function(id, totalProcessed) {
               var processedStorageName = "totalProcessed" + id;
               var today = getFormattedDate();
@@ -346,7 +351,7 @@
             instance.formattedTotalNumProcessed = ko.pureComputed(function(){
                 return abbreviateNumber(instance.totalNumProcessed());
             });
-            instance.maxProcessed = ko.observable(saveTotalProcessed(instance.name(), 0));
+            instance.maxProcessed = ko.observable(saveTotalProcessed(instance.name(), getTotalProcessed(instance.name(), getFormattedDate())));
             instance.formattedMaxProcessed = ko.pureComputed(function(){
                 return "<span class=max-processed__count>" + abbreviateNumber(instance.maxProcessed().numProcessed) + "</span><span class=max-processed__date>" + instance.maxProcessed().date + "</span>";
             });
