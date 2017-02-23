@@ -198,7 +198,6 @@
                 }
             }
             instance.update = function(newName, newValue) {
-                newName = newName.replace(/ /g, "-");
                 instance.leaderChanged(newName !== instance.name() || newValue > instance.value());
                 instance.name(newName);
                 instance.value(newValue);
@@ -318,7 +317,7 @@
         }
         function QueueData(queueName, requestData, queueIndex) {
             var instance = this;
-            instance.name = ko.observable(queueName);
+            instance.name = ko.observable(queueName.replace(/ /g, "-"));
             instance.requestData = requestData;
             instance.previousTotalInbound = -1;
             instance.color = ko.observable(randomColor({luminosity: 'light'}));
