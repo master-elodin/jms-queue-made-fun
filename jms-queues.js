@@ -246,6 +246,9 @@
                 options: {
                   maintainAspectRatio: false,
                   responsive: true,
+                  legend: {
+                      display: false
+                  },
                   scales: {
                       gridLines: {
                           color: "rgba(255,255,255,1)"
@@ -256,6 +259,13 @@
                       xAxes: [{
                           display: true
                       }]
+                  },
+                  tooltips: {
+                      callbacks: {
+                          label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                          }
+                      }
                   }
                 }
             });
@@ -270,9 +280,9 @@
 
             for (var i = 0; i < options.queues.length; i++) {
                 var queue = options.queues[i];
-              var queueData = new QueueData(queue.name, queue.requestData, i)
-              instance.queues.push(ko.observable(queueData));
-              createChartLine(instance.chart, queueData);
+                var queueData = new QueueData(queue.name, queue.requestData, i)
+                instance.queues.push(ko.observable(queueData));
+                createChartLine(instance.chart, queueData);
             }
             instance.updateCount = 0;
             instance.update = function() {
