@@ -198,6 +198,7 @@
                 }
             }
             instance.update = function(newName, newValue) {
+                newName = newName.replace(/ /g, "-");
                 instance.leaderChanged(newName !== instance.name() || newValue > instance.value());
                 instance.name(newName);
                 instance.value(newValue);
